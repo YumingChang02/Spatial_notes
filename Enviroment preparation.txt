@@ -23,3 +23,6 @@ Install Scala sbt ( with PPA )
 # Issues and Fixes
 	Java output of memory issues
 		export JAVA_OPTS="-Xmx4G -Xss1024k -Xms1G"
+
+    make failed on Zedboard
+        (Not Yet verified) modfiy zedboard.hw-resources/build/bdproject.tcl
