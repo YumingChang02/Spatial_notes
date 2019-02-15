@@ -13,4 +13,4 @@ Install Scala sbt ( with PPA )
 
 # Issues
 	Java output of memory issues
-		add 'export_JAVA_OPTIONS="-Xmx6G -Xss1024k -Xms1G"' to end of spatial command
+		export JAVA_OPTS="-Xmx4G -Xss1024k -Xms1G"
