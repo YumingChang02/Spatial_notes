@@ -1,0 +1,16 @@
+Install Scala sbt ( with PPA )
+1. install java 8 jdk, for ubuntu 
+	$sudo apt install -y openjdk-8-jdk
+2. Scala sbt
+	echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
+	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823
+	sudo apt-get update
+	sudo apt-get install sbt
+	( source : https://www.scala-sbt.org/1.0/docs/Installing-sbt-on-Linux.html )
+3. Interger Set Library
+	sudo apt install pkg-config libgmp3-dev libisl-dev
+4. install Xilinx Vivado Webpack ( and have a cup of tea ... , it takes around 30 min )
+
+# Issues
+	Java output of memory issues
+		add 'export_JAVA_OPTIONS="-Xmx6G -Xss1024k -Xms1G"' to end of spatial command
