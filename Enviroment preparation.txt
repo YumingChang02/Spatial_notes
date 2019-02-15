@@ -10,7 +10,16 @@ Install Scala sbt ( with PPA )
 3. Interger Set Library
 	sudo apt install pkg-config libgmp3-dev libisl-dev
 4. install Xilinx Vivado Webpack ( and have a cup of tea ... , it takes around 30 min )
+    ## Assume that you installed the path to {XilinxPath}
 
-# Issues
+5. git clone https://github.com/stanford-ppl/spatial.git
+6. cp spatial
+7. make install
+    #Note in document, emptiness will show up in home diirectory, however it seems not so, no errors till now. -- 2019/02/15
+
+8. Add Xilinx bin to PATH
+    export PATH=$PATH:{XilinxPath}/Vivado/bin
+
+# Issues and Fixes
 	Java output of memory issues
 		export JAVA_OPTS="-Xmx4G -Xss1024k -Xms1G"
