@@ -12,6 +12,10 @@ Install Scala sbt ( with PPA )
 
 3. Interger Set Library
 	$ sudo apt install pkg-config libgmp3-dev libisl-dev
+    # for Zynq devices
+        $ sudo apt install libc6-armel-cross libc6-dev-armel-cross binutils-arm-linux-gnueabi libncurses5-dev g++-arm-linux-gnueabihf
+    # for Ultrascale
+        $ sudo apt install g++-aarch64-linux-gnu
 
 4. install Xilinx Vivado Webpack ( and have a cup of tea ... , it takes around 30 min )
     # Assume that you installed the path to {XilinxPath}, The Installed version is {XilinxVer} ( such as 2017.1, as needed in Issue #2 )
@@ -42,3 +46,18 @@ Install Scala sbt ( with PPA )
 
     2 make failed on Zedboard
         Install Xilinx 2017.1 ( noted in 2019/2/17 )
+
+    3 for zedboard, during make in the gen/<app name> @make sw, the script fails
+        3-1 the makefile tried to copy script/zedboard.mk to cpp, where the generated script shall be zedboard.make
+        3-2 the script is using g++ version 4.8 for cross compiling, if you are not using the coressponding version, you need to mod the script name
+        3-3 TopHost.cpp:18:10: fatal error: FringeContext.h: No such file or directory
+            The included source is zynq.sw-resources, while compiling with zedboard, shall be zedboard.sw-resources
+
+            # $ cat scripts/zedboard.make                               --- ISSUE 3-1
+                # CC=g++-4.8                                            --- ISSUE 3-2
+                # LINK=g++-4.8                                          --- ISSUE 3-2
+                # CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
+                #
+                # FRINGE_SRC=../zynq.sw-resources                       --- ISSUE 3-3
+                #
+                # ... ( latter part of the code omitted ) ...
