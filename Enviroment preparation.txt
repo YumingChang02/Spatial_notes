@@ -1,4 +1,5 @@
 Install Scala sbt ( with PPA )
+
 1. install java 8 jdk, for ubuntu 
 	$ sudo apt install -y openjdk-8-jdk
 
@@ -15,16 +16,19 @@ Install Scala sbt ( with PPA )
 4. install Xilinx Vivado Webpack ( and have a cup of tea ... , it takes around 30 min )
     # Assume that you installed the path to {XilinxPath}, The Installed version is {XilinxVer} ( such as 2017.1, as needed in Issue #2 )
 
-5. $ git clone https://github.com/stanford-ppl/spatial.git
-6. $ cp spatial
+5. set Java Options ( See Issue #1 )
+    $ export JAVA_OPTS="-Xmx4G -Xss1024k -Xms1G"
+
+6. $ git clone https://github.com/stanford-ppl/spatial.git
+7. $ cp spatial
     # This current path will be further set as {spatialPath}
-7. $ make install
+8. $ make install
     # Note in document, emptiness will show up in home diirectory, however it seems not so, no errors till now. -- 2019/02/15
 
-8. Add Xilinx bin to PATH
-    export PATH=$PATH:{XilinxPath}/Vivado/{XilinxVer}/bin
+9. Add Xilinx bin to PATH
+    export PATH=$PATH:{XilinxPath}/Vivado/{XilinxVer}/bin:{XilinxPath}/SDK/{XilinxVer}/bin/bootgen
 
-9. to build a app
+10. to build a app
     # run the command in the spatial Path
     $ bin/spatial <app name> --synth --fpga=ZedBoard
         # fpga
