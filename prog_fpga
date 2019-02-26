@@ -1,0 +1,4 @@
+#!/bin/sh
+VAR=$1
+BIN="${VAR##*/}"
+cat $BIN > /dev/xdevcfg
