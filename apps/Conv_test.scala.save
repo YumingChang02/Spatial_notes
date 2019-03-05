@@ -1,0 +1,72 @@
+import spatial.dsl._
+
+@spatial object Conv_test extends SpatialApp {
+
+  def main(args: Array[String]): Unit = {
+    type T = FixPt[ TRUE, _16, _16 ]
+
+	// parameters
+    val input_size  = ArgIn[Int]
+	val tile_size   = 16
+	val kernel_size = 5
+
+    // set Arg to the first command line argument
+    setArg( input_size, args(0).to[Int] )
+
+	// load data
+	val input  = Array.tabulate[T]( input_size  ){ i => i.to[T] }
+	val kernel = Array.tabulate[T]( kernel_size ){ i => ( kernel_size/2 - i).to[T] }
+
+	// Create input and output DRAMs
+	val srcmem = DRAM[T]( input_size )
+	val dstmem = DRAM[T]( input_size )
+	val kermem = DRAM[T]( kernel_size )
+
+	// copy variable to memory
+	setMem( srcmem, input  )
+	setMem( kermem, kernel )
+
+	Accel{
+		// sliding window
+		val sldwin = RegFile[T]( kernel_size )
+
+		// allocate memory for input output and kernel
+		val rawdata = SRAM[T]( tile_size )
+		val result  = SRAM[T]( tile_size )
+		val kersram = SRAM[T]( kernel_size )
+
+        // load kernel to SRAM
+		kersram load kermem
+
+		//TODO : loop through tiles
+        Foreach( input_size by tile_size ){ i =>
+
+		    // load tile memory
+		    rawdata load srcmem( i::( i + tile_size ) )
+
+		    Foreach( tile_size by 1 ){ j =>
+
+			    // Shift next element into sliding window
+			    sldwin <<= rawdata( j )
+
+			    // compute convolution
+			    result( j ) = Reduce( Reg[T] ( 0.to[T] ) )( kernel_size by 1 ){ k =>
+				    sldwin( k ) * kersram( k )
+			    }{ _ + _ }
+
+		    }
+
+		    // store result
+		    dstmem( i::( i + tile_size ) ) store result
+        }
+
+	}
+
+    // Extract results from accelerator
+    val results = getMem( dstmem )
+
+    // Create validation checks and debug code
+    printArray(results, "Results:")
+  }
+
+}
