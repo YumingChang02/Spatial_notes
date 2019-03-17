@@ -1,6 +1,6 @@
 import spatial.dsl._
 
-@spatial object Conv_test extends SpatialApp {
+@spatial object Conv_tile extends SpatialApp {
 
   def main(args: Array[String]): Unit = {
     type T = FixPt[ TRUE, _16, _16 ]
